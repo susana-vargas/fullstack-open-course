@@ -1,25 +1,50 @@
-const Hello = (props) => {
-  console.log(props)
+
+const Parrafo = (props) => {
   return (
-    <div>
-      <p>
-      Hello {props.name}, you are {props.age} years old
-      </p>
-    </div>
+      <p>{props.contenido}</p>
   )
 }
+
+const Title = (props) => {
+  return (
+    <>
+      <h1>{props.titulo}</h1>
+    </>
+  )
+}
+
+
 
 const App = () => {
-  const name = 'Peter'
-  const age = 10
+  const course = 'Half Stack application development'
+  const part1 = 'Fundamentals of React'  
+  const part2 = 'Using props to pass data'  
+  const part3 = 'State of a component'  
+  const name = 'susana'
+  const name1 = 'aldo'
+  const name2 = 'gloria'
+  const content = 30
+  const content1 = 'nieves'
+
+  
 
   return (
-    <div>
-      <h1>Greetings</h1>
-      <Hello name='Maya' age={26 + 10} />
-      <Hello name={name} age={age} />
-    </div>
+    <>
+      <Title titulo = {name} />
+      <Title titulo = {name1} />
+      <Title titulo = {name2} />
+      <Parrafo contenido ={content} />
+      <Parrafo contenido ={content1} />
+      <Title titulo = {content1} />
+      <Title test = {'prueva'} titulo = {'pinki'} />
+      <p>soy el app</p>
+    </>
   )
 }
 
-export default App
+// {
+//   titulo: 'susana',
+//   dato: 'dato'
+// }
+
+export { App }

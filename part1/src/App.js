@@ -1,50 +1,57 @@
+import { useState } from 'react'
+const Hello = ({ name, age }) => {
 
-const Parrafo = (props) => {
+  const bornYear = () => new Date().getFullYear() - age
+
   return (
-      <p>{props.contenido}</p>
+    <div>
+      <p>Hello {name}, you are {age} years old</p>
+      <p>So you were probably born in {bornYear()}</p>
+    </div>
   )
 }
 
-const Title = (props) => {
+const Button = (props) => {
   return (
-    <>
-      <h1>{props.titulo}</h1>
-    </>
+    <button onClick={props.handleClick}>
+      {props.text}
+    </button>
   )
 }
 
 
-
-const App = () => {
-  const course = 'Half Stack application development'
-  const part1 = 'Fundamentals of React'  
-  const part2 = 'Using props to pass data'  
-  const part3 = 'State of a component'  
-  const name = 'susana'
-  const name1 = 'aldo'
-  const name2 = 'gloria'
-  const content = 30
-  const content1 = 'nieves'
+const Display = ({ counter }) => <div>{counter}</div>
 
   
 
+const App = (props) => {
+  const [ counter, setCounter ] = useState(0)
+  console.log('rendering with counter value', counter)
+
+  const increaseByOne = () => {
+    console.log('increasing, value before', counter)
+    setCounter(counter + 1)
+  }
+
+  const decreaseByOne = () => { 
+    console.log('decreasing, value before', counter)
+    setCounter(counter - 1)
+  }
+  
+  const setToZero = () => {
+    console.log('resetting to zero, value before', counter)
+    setCounter(0)
+  }
+
+
   return (
-    <>
-      <Title titulo = {name} />
-      <Title titulo = {name1} />
-      <Title titulo = {name2} />
-      <Parrafo contenido ={content} />
-      <Parrafo contenido ={content1} />
-      <Title titulo = {content1} />
-      <Title test = {'prueva'} titulo = {'pinki'} />
-      <p>soy el app</p>
-    </>
+    <div>
+      <Display counter={counter}/>
+      <Button handleClick={increaseByOne} text="plus" />
+      <Button handleClick={setToZero} text="zero" />
+      <Button handleClick={decreaseByOne} text="minus" />
+    </div>
   )
 }
 
-// {
-//   titulo: 'susana',
-//   dato: 'dato'
-// }
-
-export { App }
+export default App

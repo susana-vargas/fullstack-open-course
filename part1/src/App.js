@@ -1,57 +1,46 @@
 import { useState } from 'react'
-const Hello = ({ name, age }) => {
 
-  const bornYear = () => new Date().getFullYear() - age
-
+const History = (props) => {
+  if (props.allClicks.length === 0) {
+    return(
+      <div>
+        the app is used by pressing the buttons
+      </div>
+    )
+  }
   return (
     <div>
-      <p>Hello {name}, you are {age} years old</p>
-      <p>So you were probably born in {bornYear()}</p>
+      button press history: {props.allClicks.join(' ')}
     </div>
   )
 }
 
-const Button = (props) => {
-  return (
-    <button onClick={props.handleClick}>
-      {props.text}
-    </button>
-  )
-}
+
+const Display = props => <div>{props.value}</div>
+
+const Button = (props) => (
+  <button onClick={props.handleClick}>
+    {props.text}
+  </button>
+)
 
 
-const Display = ({ counter }) => <div>{counter}</div>
+const App = () => {
+  const [value, setValue] = useState(10)
 
-  
-
-const App = (props) => {
-  const [ counter, setCounter ] = useState(0)
-  console.log('rendering with counter value', counter)
-
-  const increaseByOne = () => {
-    console.log('increasing, value before', counter)
-    setCounter(counter + 1)
-  }
-
-  const decreaseByOne = () => { 
-    console.log('decreasing, value before', counter)
-    setCounter(counter - 1)
-  }
-  
-  const setToZero = () => {
-    console.log('resetting to zero, value before', counter)
-    setCounter(0)
+  const setToValue = newValue => {
+    console.log('value now', newValue)
+    setValue(newValue)
   }
 
 
   return (
     <div>
-      <Display counter={counter}/>
-      <Button handleClick={increaseByOne} text="plus" />
-      <Button handleClick={setToZero} text="zero" />
-      <Button handleClick={decreaseByOne} text="minus" />
+      <Display value={value} />
+      <Button handleClick={() => setToValue(1000)} text="thousand" />
+      <Button handleClick={() => setToValue(0)} text="reset" />
+      <Button handleClick={() => setToValue(value + 1)} text="increment" />
     </div>
   )
 }
-
 export default App

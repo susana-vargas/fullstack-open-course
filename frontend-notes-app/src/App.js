@@ -1,12 +1,25 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import Note from './components/Note';
 
 //aqui la sintaxis { notes: findNotes } indica que se lecambia el nombre en la desestructuracion
 const App = ({ notes: findNotes }) => {
   //el estado es una caracteristica que permite almacenar y gestionar la informacion que cambia en una aplicacion, el estado pertenece al componente en el que se encuentra, cada vez que se cambia el estado, el componente se renderiza nuevamente
-  const [notes, setNotes] = useState(findNotes);
+  const [notes, setNotes] = useState([]);
   const [newNote, setNewNote] = useState('una nueva nota...');
   const [showAll, setShowAll] = useState(true)
+
+  const hook = () => {
+    console.log('effect')
+    axios
+      .get('http://localhost:3001/notes')
+      .then(response => {
+        console.log('promise fulfilled')
+        setNotes(response.data)
+      })
+  }
+  useEffect(hook, [])
+  console.log('render', notes.length, 'notes');
 
   //el evento es un objeto
   const addNote = (event) => {

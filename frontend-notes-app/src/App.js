@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Note from './components/Note';
+import noteService from './services/notes'
+
 
 //aqui la sintaxis { notes: findNotes } indica que se lecambia el nombre en la desestructuracion
 const App = ({ notes: findNotes }) => {
@@ -9,16 +11,51 @@ const App = ({ notes: findNotes }) => {
   const [newNote, setNewNote] = useState('una nueva nota...');
   const [showAll, setShowAll] = useState(true)
 
-  const hook = () => {
-    console.log('effect')
-    axios
-      .get('http://localhost:3001/notes')
+  
+  const toggleImportanceOf = id => {
+    // const url = `http://localhost:3001/notes/${id}`
+    const note = notes.find(n => n.id === id)
+    const changedNote = { ...note, important: !note.important }
+
+    noteService
+      .update(id, changedNote)
       .then(response => {
-        console.log('promise fulfilled')
-        setNotes(response.data)
+        setNotes(notes.map(note => note.id !== id ? note : response.data))
       })
+    // axios.put(url, changedNote).then(response => {
+    //   setNotes(notes.map(n => n.id !== id ? n : response.data))
+    // })
+
+
+    .catch(error => {
+      alert(
+        `the note '${note.content}' was already deleted from server`
+      )
+      setNotes(notes.filter(n => n.id !== id))
+    })
   }
-  useEffect(hook, [])
+
+  
+
+  
+
+  // const hook = () => {
+  //   console.log('effect')
+  //   axios
+  //     .get('http://localhost:3001/notes')
+  //     .then(response => {
+  //       console.log('promise fulfilled')
+  //       setNotes(response.data)
+  //     })
+  // }
+
+  useEffect(() => {
+    noteService
+    .getAll()
+    .then(initialNotes => {
+      setNotes(initialNotes)
+    })
+  }, [])
   console.log('render', notes.length, 'notes');
 
   //el evento es un objeto
@@ -27,12 +64,16 @@ const App = ({ notes: findNotes }) => {
     const noteObject = {
       content: newNote,
       important: Math.random() < 0.5,
-      id: notes.length + 1,
     };
 
-    setNotes(notes.concat(noteObject));
-    setNewNote('');
+    noteService
+      .create(noteObject)
+      .then(response => {
+        setNotes(notes.concat(response.data))
+        setNewNote('')
+      })
   };
+  
 
   const handleNoteChange = (event) => {
     console.log(event.target.value);
@@ -53,7 +94,9 @@ const App = ({ notes: findNotes }) => {
       </div>
       <ul>
       {notesToShow.map(note => (
-          <Note key={note.id} note={note} />
+          <Note key={note.id} note={note} 
+          toggleImportance={() => toggleImportanceOf(note.id)}
+          />
         ))}
       </ul>
       <form onSubmit={addNote}>

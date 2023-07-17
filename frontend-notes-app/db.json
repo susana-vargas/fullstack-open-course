@@ -19,6 +19,36 @@
       "id": 4,
       "content": "nueva nota",
       "important": false
+    },
+    {
+      "content": "una nueva nota...",
+      "important": false,
+      "id": 5
+    },
+    {
+      "content": "una nueva nota...",
+      "important": true,
+      "id": 6
+    },
+    {
+      "content": "las notas nuevas son de prueva",
+      "important": true,
+      "id": 7
+    },
+    {
+      "content": "una nueva nota de prueva",
+      "important": true,
+      "id": 8
+    },
+    {
+      "content": "una nueva nota :)",
+      "important": true,
+      "id": 9
+    },
+    {
+      "content": "una nueva nota :)",
+      "important": false,
+      "id": 10
     }
   ]
 }

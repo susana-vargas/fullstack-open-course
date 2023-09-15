@@ -1,7 +1,25 @@
 const express = require('express')
 const app = express()
+const morgan = require('morgan')
 
 app.use(express.json())
+
+app.use(morgan('dev'));
+app.use(morgan((tokens, req, res) => {
+  return `${JSON.stringify(req.body)}, esto es lo que mandan`
+}));
+
+// const requestLogger = (request, response, next) => {
+  //   console.log('Method:', request.method)
+  //   console.log('Path:  ', request.path)
+  //   console.log('Body:  ', request.body)
+  //   console.log('---')
+  //   next()
+  // }
+  // const unknownEndpoint = (request, response) => {
+    //   response.status(404).send({ error: 'unknown endpoint' })
+    // }
+    // app.use(requestLogger)
 
 let notes = [
   {
@@ -75,6 +93,8 @@ app.delete('/api/notes/:id', (request, response) => {
 
   response.status(204).end()
 })
+
+//app.use(unknownEndpoint)
 
 const PORT = 4000
 app.listen(PORT, () => {
